@@ -13,12 +13,12 @@ Dans Chrome, installe l'extension Chrome [User JavaScript and CSS](https://chrom
 Télécharge le [fichier de configuration pour l'extension](https://raw.githubusercontent.com/michaelbontyes/lufa/main/lufaConfig-UserJavascriptAndCSS-ChromeExtension.json)  
    
 ### 3. Installation 🍅
-Ouvre les options de l'extension Chrome "_User JavaScript and CSS_" et ajoute le fichier de configuration que tu viens de télécharger pour Lufa ("_Upload JSON_")  
+Ouvre les **options de l'extension** Chrome "_User JavaScript and CSS_" et ajoute le fichier de configuration que tu viens de télécharger pour Lufa ("_**Upload JSON**_")  
 
 <img src="https://raw.githubusercontent.com/michaelbontyes/lufa/main/addConfig.png" width="600">
 
 ### 4. Trouve les aubaines 🙂
-Et voilà, tu peux maintenant allez dans ton marché et tu verras le button "Aubaines" en rouge pour trouver toutes les aubaines.
+Et voilà, tu peux maintenant allez dans ton marché et tu verras le button "**_Aubaines_**" en rouge pour trouver toutes les aubaines.
 
 <img src="https://raw.githubusercontent.com/michaelbontyes/lufa/main/buttonAubaines.png" width="1000">
 
