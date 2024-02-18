@@ -4,10 +4,14 @@ function lufa_filter() {
 	let stopRequested = false;
 	let foundDiscounts = 0; // Initialize the count of found discounts
 
-	// Click the link in the "user-sidebar"
-	$(
-		'#user-sidebar a[href="https://montreal.lufa.com/fr/marche/categorie/coup-de-coeur-local/aubaines"]'
-	).click();
+	// Get the first <li> item of the navigation bar with class name "user-sidebar"
+	var firstLiItem = document.querySelector('.user-sidebar li:first-child');
+	
+	// Get the link (<a> tag) inside the first <li> item
+	var link = firstLiItem.querySelector('a');
+	console.log(link)
+	// Click the link
+	link.click();
 
 	// Create and show the overlay with the loading GIF, text, and stop button
 	let overlay = $(`
