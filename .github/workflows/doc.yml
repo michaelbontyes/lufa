@@ -1,0 +1,30 @@
+name: Publish README to GitHub Pages
+
+on:
+  workflow_dispatch: 
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+
+      - name: Install dependencies
+        run: npm install -g markdown-to-html
+
+      - name: Convert README.md to index.html
+        run: markdown-to-html -o index.html README.md
+
+      - name: Deploy to GitHub Pages
+        uses: JamesIves/github-pages-deploy-action@v4
+        with:
+          branch: gh-pages  # The branch the action should deploy to.
+          folder: .  # The folder the action should deploy.
+          single-commit: true
+          commit-message: "Deploy README.md to GitHub Pages"
