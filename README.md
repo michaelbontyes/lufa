@@ -13,7 +13,7 @@ Dans Chrome, installe l'extension Chrome [User JavaScript and CSS](https://chrom
 Télécharge le [fichier de configuration pour l'extension](https://raw.githubusercontent.com/michaelbontyes/lufa/main/lufaConfig-UserJavascriptAndCSS-ChromeExtension.json)  
    
 ### 3. Installation 🍅
-Ouvre [les options de l'extension Chrome "_User JavaScript and CSS_"](chrome-extension://nbhcbdghjpllgmfilhnhkllmkecfmpld/options.html#settings) et ajoute le fichier de configuration que tu viens de télécharger pour Lufa ("_Upload JSON_")  
+Ouvre les options de l'extension Chrome "_User JavaScript and CSS_" et ajoute le fichier de configuration que tu viens de télécharger pour Lufa ("_Upload JSON_")  
 
 <img src="https://raw.githubusercontent.com/michaelbontyes/lufa/main/addConfig.png" width="600">
 
