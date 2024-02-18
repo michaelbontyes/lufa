@@ -5,7 +5,7 @@
 ## Comment l'ajouter à ton marché Lufa? En 4 étapes et moins de 5 minutes 😁
 
 ### 1. Extension Chrome 🧰
-Installe l'extension Chrome [User JavaScript and CSS](https://chromewebstore.google.com/detail/user-javascript-and-css/nbhcbdghjpllgmfilhnhkllmkecfmpld)  
+Dans Chrome, installe l'extension Chrome [User JavaScript and CSS](https://chromewebstore.google.com/detail/user-javascript-and-css/nbhcbdghjpllgmfilhnhkllmkecfmpld)  
 
 <img src="https://raw.githubusercontent.com/michaelbontyes/lufa/main/chromeExtension.png" width="300">
    
@@ -13,7 +13,7 @@ Installe l'extension Chrome [User JavaScript and CSS](https://chromewebstore.goo
 Télécharge le [fichier de configuration pour l'extension](https://raw.githubusercontent.com/michaelbontyes/lufa/main/lufaConfig-UserJavascriptAndCSS-ChromeExtension.json)  
    
 ### 3. Installation 🍅
-Ouvre les options de l'extension Chrome et ajoute le fichier de configuration pour Lufa ("_Upload JSON_")  
+Ouvre [les options de l'extension Chrome "_User JavaScript and CSS_"](chrome-extension://nbhcbdghjpllgmfilhnhkllmkecfmpld/options.html#settings) et ajoute le fichier de configuration pour Lufa ("_Upload JSON_")  
 
 <img src="https://raw.githubusercontent.com/michaelbontyes/lufa/main/addConfig.png" width="600">
 
