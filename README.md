@@ -29,4 +29,4 @@ Et voilà, tu peux maintenant allez dans ton marché et tu verras le button "Aub
 - Si tu veux **revoir tous les produits** et pas juste les aubaines, tu peux recharger la page en cliquand sur "**_Marché_**"
 
 # Partage tes commentaires
-Si tu penses à des façons d'améliorer ce "_Chercheur d'aubaines Lufa_", [partage-les icitte](https://forms.gle/FwDYaLtCCGEpqivPA). Merci pour ton feedback!
+Si tu penses à des façons d'améliorer ce "_Chercheur d'aubaines Lufa_", [partage-les ici](https://forms.gle/FwDYaLtCCGEpqivPA). Merci pour ton feedback!
