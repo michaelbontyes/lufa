@@ -1,0 +1,18 @@
+name: Publish JSON File as Artifact
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+
+      - name: Upload JSON file as artifact
+        uses: actions/upload-artifact@v2
+        with:
+          name: lufa-config
+          path: lufaConfig-UserJavascriptAndCSS-ChromeExtension.json
