@@ -1,141 +1,111 @@
-function lufa_filter() {
-	let maxScrollInterval = 200; // Maximum amount to scroll on each step
-	let scrollDelay = 100; // Delay in milliseconds between each scroll
-	let stopRequested = false;
-	let foundDiscounts = 0; // Initialize the count of found discounts
+(function () {
+	function lufa_filter() {
+		let maxScrollInterval = 200;
+		let scrollDelay = 100;
+		let stopRequested = false;
+		let foundDiscounts = 0;
 
-	function firstItem() {
-		// Get the first <li> item of the navigation bar with class name "user-sidebar"
-		var firstLiItem = document.querySelector('.user-sidebar li:first-child');
+		let overlay = $(`
+		<div id="lufa-overlay" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); z-index: 9999; display: flex; flex-direction: column; justify-content: center; align-items: center;">
+			<img src="//raw.githubusercontent.com/michaelbontyes/lufa/main/loader.gif" alt="Loading" style="width: 200px; height: 200px;">
+			<div style="color: white; font-size: 24px; margin: 20px;"><span id="discount-count"></span><span class="animated-ellipsis"></span></div>
+			<button id="stop-button" style="padding: 10px 20px; font-size: 16px; cursor: pointer;">Stop</button>
+		</div>
+		`);
+		$('body').append(overlay);
 
-		// Get the link (<a> tag) inside the first <li> item
-		var link = firstLiItem.querySelector('a');
-		console.log(link);
-		// Click the link
-		link.click();
-	}
+		$('#stop-button').click(function () {
+			stopRequested = true;
+			$('#lufa-overlay').remove();
+		});
 
-	firstItem();
+		$('<style>')
+			.prop('type', 'text/css')
+			.html(`
+				@keyframes blink {
+					0%, 100% { opacity: 0; }
+					50% { opacity: 1; }
+				}
+				.animated-ellipsis::after {
+					content: '...';
+					animation: blink 1s infinite;
+				}
+			`)
+			.appendTo('head');
 
-	// Create and show the overlay with the loading GIF, text, and stop button
-	let overlay = $(`
-    <div id="lufa-overlay" style="position: fixed; top: 0; left: 0; width: 100%; height: 100%; background: rgba(0, 0, 0, 0.5); z-index: 9999; display: flex; flex-direction: column; justify-content: center; align-items: center;">
-        <img src="//raw.githubusercontent.com/michaelbontyes/lufa/main/loader.gif" alt="Loading" style="width: 200px; height: 200px;">
-        <div style="color: white; font-size: 24px; margin: 20px;"><span id="discount-count"></span><span class="animated-ellipsis"></span></div>
-        <button id="stop-button" style="padding: 10px 20px; font-size: 16px; cursor: pointer;">Stop</button>
-    </div>
-    `);
-	$('body').append(overlay);
+		function scrollStep() {
+			if (stopRequested) return;
 
-	// Add click event listener to the stop button
-	$('#stop-button').click(function () {
-		stopRequested = true;
-		$('#lufa-overlay').remove();
+			let scrollTop = $(window).scrollTop();
+			let scrollHeight = $(document).height();
+			let newScrollTop = scrollTop + maxScrollInterval;
+
+			$(window).scrollTop(newScrollTop);
+			filterProductsWithoutDiscount();
+
+			if (
+				scrollTop < scrollHeight - $(window).height() &&
+				newScrollTop < scrollHeight
+			) {
+				setTimeout(scrollStep, scrollDelay);
+			} else {
+				console.log('Scroll complete.');
+				$('#lufa-overlay').remove();
+			}
+		}
+
+function filterProductsWithoutDiscount() {
+	const uniqueSaleProducts = new Set();
+
+	$('.single-product-wrapper, .products-wrapper-generated').each(function () {
+		const $product = $(this);
+		const pid = $product.find('.single-product').data('pid');
+
+		const hasSale = $product.find('.order-price.fr.sale').length > 0;
+
+		if (!hasSale) {
+			// Hide the product if it doesn't have a sale
+			$product.hide();
+		} else {
+			// Show the product if it has a sale and ensure we count unique items
+			$product.show();
+			if (pid) {
+				uniqueSaleProducts.add(pid);
+			}
+		}
 	});
 
-	// Add CSS animation for the animated ellipsis
-	$('<style>')
-		.prop('type', 'text/css')
-		.html(
-			`
-            @keyframes blink {
-                0%, 100% { opacity: 0; }
-                50% { opacity: 1; }
-            }
-            .animated-ellipsis::after {
-                content: '...';
-                animation: blink 1s infinite;
-            }
-        `
-		)
-		.appendTo('head');
-
-	function scrollStep() {
-		if (stopRequested) return;
-
-		let scrollTop = $(window).scrollTop();
-		let scrollHeight = $(document).height();
-		let newScrollTop = scrollTop + maxScrollInterval;
-
-		$(window).scrollTop(newScrollTop);
-
-		// Filter products without discount at each scroll step
-		filterProductsWithoutDiscount();
-
-		if (
-			scrollTop < scrollHeight - $(window).height() &&
-			newScrollTop < scrollHeight
-		) {
-			setTimeout(scrollStep, scrollDelay);
-		} else {
-			console.log('Reached the bottom or no more content to load.');
-			// Remove the overlay once filtering is complete
-			$('#lufa-overlay').remove();
-			firstItem();
-		}
-	}
-
-	function filterProductsWithoutDiscount() {
-		$('.single-product-wrapper, .products-wrapper-generated')
-			.filter(function () {
-				return $(this).find('.discount-tag').length === 0;
-			})
-			.remove();
-
-		// Update the count of found discounts
-		foundDiscounts = $('.discount-tag').length;
-		$('#discount-count').text(foundDiscounts + ' aubaines trouvées');
-
-		// Update the "Aubaines" button text with the count
-		$('.header-aubaines').text('Aubaines (' + foundDiscounts + ')');
-	}
-
-	scrollStep();
+	const count = uniqueSaleProducts.size;
+	$('#discount-count').text(count + ' aubaines trouvées');
+	$('.header-aubaines').text('Aubaines (' + count + ')');
 }
 
-window.onload = function () {
-	console.log(
-		'Page is fully loaded. Adding "Aubaines" button to navigation...'
-	);
+		scrollStep();
+	}
 
-	// Find the navigation list
-	var navList = document.querySelector('.v2-header-menu .v2-header-wrapper ul');
-
+	// Inject the "Aubaines" nav button
+	let navList = document.querySelector('.v2-header-menu .v2-header-wrapper ul');
 	if (navList) {
-		// Create the new list item
-		var newListItem = document.createElement('li');
-
-		// Create the div container for the button
-		var newDiv = document.createElement('div');
+		let newListItem = document.createElement('li');
+		let newDiv = document.createElement('div');
 		newDiv.style.display = 'inline-block';
 		newDiv.style.position = 'relative';
 
-		// Create the button
-		var newButton = document.createElement('a');
-		newButton.href = 'javascript:void(0);'; // Prevent default link behavior
+		let newButton = document.createElement('a');
+		newButton.href = 'javascript:void(0);';
 		newButton.className = 'v2-button-green button-small header-aubaines';
-		newButton.id = 'header-one-time-basket';
-		newButton.style.backgroundColor = 'red'; // Set the background color to red
-		newButton.innerText = 'Aubaines';
-		newButton.onclick = function () {
-			lufa_filter();
-		};
+		newButton.style.backgroundColor = 'red';
+		newButton.style.color = 'white';
+		newButton.style.fontWeight = 'bold';
+		newButton.textContent = 'Aubaines';
+		newButton.onclick = lufa_filter;
 
-		// Append the button to the div container
 		newDiv.appendChild(newButton);
-
-		// Append the div container to the list item
 		newListItem.appendChild(newDiv);
+		navList.appendChild(newListItem); // Append to the end of the <ul>
 
-		// Insert the new list item before the last list item in the navigation
-		navList.insertBefore(newListItem, navList.lastChild);
-
-		console.log(
-			'"Aubaines" button added to navigation. Click to run lufa_filter().'
-		);
+		console.log('"Aubaines" button injected.');
 	} else {
-		console.error(
-			'Navigation list not found. Unable to add "Aubaines" button.'
-		);
+		console.error('Nav list not found.');
 	}
-};
+})();
